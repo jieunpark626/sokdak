@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-class GlobalExceptionHandler {
+class JournalExceptionHandler {
 
     // 404 - 일기 없음
     @ExceptionHandler(JournalNotFoundException::class)
