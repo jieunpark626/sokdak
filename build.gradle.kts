@@ -10,7 +10,7 @@ plugins {
 
 group = "ai.sokdak"
 version = "0.0.1-SNAPSHOT"
-description = "Sokdak core service"
+description = "Sokdak service"
 
 java {
     toolchain {
@@ -37,14 +37,6 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-}
-
-allOpen {
-    annotation("jakarta.persistent.Entity")
-}
-
-noArg {
-    annotation("jakarta.persistent.Entity")
 }
 
 ktlint {

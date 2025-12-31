@@ -1,1 +1,1 @@
-rootProject.name = "sokdak-core"
+rootProject.name = "sokdak"

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: sokdak-core
+    name: sokdak
 
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
