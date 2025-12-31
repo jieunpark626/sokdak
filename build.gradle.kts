@@ -33,7 +33,18 @@ dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    runtimeOnly("org.postgresql:postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+}
+
+allOpen {
+    annotation("jakarta.persistent.Entity")
+}
+
+noArg {
+    annotation("jakarta.persistent.Entity")
 }
 
 ktlint {
