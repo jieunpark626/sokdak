@@ -1,11 +1,11 @@
-package ai.sokdak.core
+package com.sokdak
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SokdakCoreApplication
+class SokdakApplication
 
 fun main(args: Array<String>) {
-    runApplication<SokdakCoreApplication>(*args)
+    runApplication<SokdakApplication>(*args)
 }
