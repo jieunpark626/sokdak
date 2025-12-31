@@ -9,20 +9,14 @@ import java.time.Instant
 @Entity
 @Table(name = "journals")
 class JournalJpaEntity(
-
     @Id
     val id: String,
-
     @Column(nullable = false)
     val userId: String,
-
-    @Column(nullable = false, length=50)
+    @Column(nullable = false, length = 50)
     var title: String,
-
     @Column(nullable = false, columnDefinition = "TEXT")
     var content: String,
-
     val createdAt: Instant,
-
     var updatedAt: Instant,
 )

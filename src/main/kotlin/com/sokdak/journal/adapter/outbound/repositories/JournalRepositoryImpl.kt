@@ -1,6 +1,5 @@
 package com.sokdak.journal.adapter.outbound.repositories
 
-
 import com.sokdak.journal.adapter.outbound.mappers.JournalMapper
 import com.sokdak.journal.domain.entities.Journal
 import com.sokdak.journal.domain.repositories.JournalRepository
@@ -14,9 +13,8 @@ import java.time.Instant
 @Repository
 class JournalRepositoryImpl(
     private val jpaRepository: JournalJpaRepository,
-    private val mapper: JournalMapper
+    private val mapper: JournalMapper,
 ) : JournalRepository {
-
     override fun save(journal: Journal): Journal {
         val entity = mapper.toJpaEntity(journal)
         val saved = jpaRepository.save(entity)
@@ -34,33 +32,33 @@ class JournalRepositoryImpl(
         startDate: Instant?,
         endDate: Instant?,
         keyword: String?,
-        pageable: Pageable
+        pageable: Pageable,
     ): Page<Journal> {
+        val page =
+            when {
+                userId != null && startDate != null && endDate != null ->
+                    jpaRepository.findAllByUserIdAndCreatedAtBetween(
+                        userId = userId.value,
+                        start = startDate,
+                        end = endDate,
+                        pageable = pageable,
+                    )
 
-        val page = when {
-            userId != null && startDate != null && endDate != null ->
-                jpaRepository.findAllByUserIdAndCreatedAtBetween(
-                    userId = userId.value,
-                    start = startDate,
-                    end = endDate,
-                    pageable = pageable
-                )
+                userId != null ->
+                    jpaRepository.findAllByUserId(
+                        userId.value,
+                        pageable,
+                    )
 
-            userId != null ->
-                jpaRepository.findAllByUserId(
-                    userId.value,
-                    pageable
-                )
+                keyword != null ->
+                    jpaRepository.findAllByTitleContainingIgnoreCase(
+                        keyword,
+                        pageable,
+                    )
 
-            keyword != null ->
-                jpaRepository.findAllByTitleContainingIgnoreCase(
-                    keyword,
-                    pageable
-                )
-
-            else ->
-                jpaRepository.findAll(pageable)
-        }
+                else ->
+                    jpaRepository.findAll(pageable)
+            }
 
         return page.map(mapper::toDomain)
     }

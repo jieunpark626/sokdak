@@ -18,7 +18,7 @@ class User private constructor(
     val gender: Gender,
     plan: Plan,
     val createdAt: Instant,
-    updatedAt: Instant
+    updatedAt: Instant,
 ) {
     var passwordHash: HashedPassword = passwordHash
         private set
@@ -34,6 +34,7 @@ class User private constructor(
 
     companion object {
         private val ulid = ULID()
+
         fun create(
             loginId: String,
             email: String,
@@ -54,7 +55,7 @@ class User private constructor(
                 gender = gender,
                 plan = plan,
                 createdAt = now,
-                updatedAt = now
+                updatedAt = now,
             )
         }
 
@@ -67,7 +68,7 @@ class User private constructor(
             gender: Gender,
             plan: Plan,
             createdAt: Instant,
-            updatedAt: Instant
+            updatedAt: Instant,
         ): User {
             return User(
                 id = id,
@@ -78,7 +79,7 @@ class User private constructor(
                 gender = gender,
                 plan = plan,
                 createdAt = createdAt,
-                updatedAt = updatedAt
+                updatedAt = updatedAt,
             )
         }
     }

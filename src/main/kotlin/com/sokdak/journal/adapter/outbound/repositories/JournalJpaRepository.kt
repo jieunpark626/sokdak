@@ -7,21 +7,20 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.time.Instant
 
 interface JournalJpaRepository : JpaRepository<JournalJpaEntity, String> {
-
     fun findAllByUserId(
         userId: String,
-        pageable: Pageable
+        pageable: Pageable,
     ): Page<JournalJpaEntity>
 
     fun findAllByUserIdAndCreatedAtBetween(
         userId: String,
         start: Instant,
         end: Instant,
-        pageable: Pageable
+        pageable: Pageable,
     ): Page<JournalJpaEntity>
 
     fun findAllByTitleContainingIgnoreCase(
         keyword: String,
-        pageable: Pageable
+        pageable: Pageable,
     ): Page<JournalJpaEntity>
 }

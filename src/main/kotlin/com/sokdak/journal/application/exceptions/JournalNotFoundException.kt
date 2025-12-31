@@ -1,5 +1,5 @@
 package com.sokdak.journal.application.exceptions
 
 class JournalNotFoundException(
-    journalId: String
+    journalId: String,
 ) : RuntimeException("Journal not found. id=$journalId")

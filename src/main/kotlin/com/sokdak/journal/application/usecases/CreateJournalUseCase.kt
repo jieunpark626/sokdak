@@ -14,14 +14,15 @@ class CreateJournalUseCase(
     fun execute(command: CreateJournalCommand): Journal {
         val now = Instant.now()
 
-        val journal = Journal(
-            id = JournalId.generate(),
-            userId = command.userId,
-            title = command.title,
-            content = command.content,
-            createdAt = now,
-            updatedAt = now,
-        )
+        val journal =
+            Journal(
+                id = JournalId.generate(),
+                userId = command.userId,
+                title = command.title,
+                content = command.content,
+                createdAt = now,
+                updatedAt = now,
+            )
 
         return journalRepository.save(journal)
     }

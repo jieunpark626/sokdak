@@ -1,6 +1,5 @@
 package com.sokdak.auth.application.exceptions
 
-
 sealed class AuthException(message: String) : RuntimeException(message)
 
 class DuplicateLoginIdException(message: String) : AuthException(message)

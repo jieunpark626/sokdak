@@ -35,7 +35,6 @@ class JournalController(
     private val updateJournalUseCase: UpdateJournalUseCase,
     private val deleteJournalUseCase: DeleteJournalUseCase,
 ) {
-
     /**
      * 1. 일기 작성
      * POST /journals
@@ -57,7 +56,8 @@ class JournalController(
      */
     @GetMapping
     fun getJournals(
-        request: GetJournalsRequest, // ← 쿼리 파라미터
+        // 쿼리 파라미터
+        request: GetJournalsRequest,
     ): Page<JournalSummaryResponse> {
         val page = getJournalsUseCase.execute(request.toCommand())
         return page.map { it.toSummaryResponse() }
@@ -84,10 +84,11 @@ class JournalController(
         @PathVariable journalId: String,
         @RequestBody request: UpdateJournalRequest,
     ): JournalResponse {
-        val journal = updateJournalUseCase.execute(
-            id = journalId,
-            command = request.toCommand()
-        )
+        val journal =
+            updateJournalUseCase.execute(
+                id = journalId,
+                command = request.toCommand(),
+            )
         return journal.toResponse()
     }
 

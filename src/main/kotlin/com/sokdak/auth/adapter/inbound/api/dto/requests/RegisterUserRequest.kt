@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
-
 data class RegisterUserRequest(
     @field:NotBlank(message = "Login ID is required")
     @field:Size(min = 4, max = 50, message = "Login ID must be between 4 and 50 characters")

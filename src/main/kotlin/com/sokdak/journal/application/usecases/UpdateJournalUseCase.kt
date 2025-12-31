@@ -12,9 +12,13 @@ import java.time.Instant
 class UpdateJournalUseCase(
     private val journalRepository: JournalRepository,
 ) {
-    fun execute(id: String, command: UpdateJournalCommand): Journal {
-        val journal = journalRepository.findById(JournalId(id))
-            ?: throw JournalNotFoundException(id)
+    fun execute(
+        id: String,
+        command: UpdateJournalCommand,
+    ): Journal {
+        val journal =
+            journalRepository.findById(JournalId(id))
+                ?: throw JournalNotFoundException(id)
 
         journal.update(command.title, command.content, Instant.now())
 

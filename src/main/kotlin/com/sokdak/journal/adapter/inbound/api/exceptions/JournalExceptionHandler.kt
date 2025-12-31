@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class JournalExceptionHandler {
-
     // 404 - 일기 없음
     @ExceptionHandler(JournalNotFoundException::class)
     fun handleJournalNotFound(e: JournalNotFoundException): ResponseEntity<ErrorResponse> {
@@ -19,24 +18,25 @@ class JournalExceptionHandler {
             .body(
                 ErrorResponse(
                     code = ErrorCode.JOURNAL_NOT_FOUND.name,
-                    message = e.message ?: "Journal not found"
-                )
+                    message = e.message ?: "Journal not found",
+                ),
             )
     }
 
     // 400 - Validation 에러 (@Valid)
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidation(e: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
-        val message = e.bindingResult.fieldErrors
-            .joinToString(", ") { "${it.field}: ${it.defaultMessage}" }
+        val message =
+            e.bindingResult.fieldErrors
+                .joinToString(", ") { "${it.field}: ${it.defaultMessage}" }
 
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(
                 ErrorResponse(
                     code = ErrorCode.INVALID_REQUEST.name,
-                    message = message
-                )
+                    message = message,
+                ),
             )
     }
 
@@ -48,8 +48,8 @@ class JournalExceptionHandler {
             .body(
                 ErrorResponse(
                     code = ErrorCode.INTERNAL_SERVER_ERROR.name,
-                    message = "Internal server error"
-                )
+                    message = "Internal server error",
+                ),
             )
     }
 }

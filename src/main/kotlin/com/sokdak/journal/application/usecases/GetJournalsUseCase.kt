@@ -6,7 +6,6 @@ import com.sokdak.journal.domain.repositories.JournalRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
-
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,11 +13,12 @@ class GetJournalsUseCase(
     private val journalRepository: JournalRepository,
 ) {
     fun execute(command: GetJournalsCommand): Page<Journal> {
-        val pageable = PageRequest.of(
-            command.page,
-            command.size,
-            Sort.by("createdAt").descending()
-        )
+        val pageable =
+            PageRequest.of(
+                command.page,
+                command.size,
+                Sort.by("createdAt").descending(),
+            )
 
         return journalRepository.findAll(
             userId = command.userId,

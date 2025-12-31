@@ -17,5 +17,4 @@ interface UserRepository {
     fun existsByLoginId(loginId: LoginId): Boolean
 
     fun existsByEmail(email: Email): Boolean
-
 }

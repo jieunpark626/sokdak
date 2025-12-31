@@ -22,7 +22,7 @@ class UserMapper {
             gender = Gender.valueOf(entity.gender),
             plan = Plan.valueOf(entity.plan),
             createdAt = entity.createdAt,
-            updatedAt = entity.updatedAt
+            updatedAt = entity.updatedAt,
         )
     }
 
@@ -36,7 +36,7 @@ class UserMapper {
             gender = domain.gender.name,
             plan = domain.plan.name,
             createdAt = domain.createdAt,
-            updatedAt = domain.updatedAt
+            updatedAt = domain.updatedAt,
         )
     }
 }
