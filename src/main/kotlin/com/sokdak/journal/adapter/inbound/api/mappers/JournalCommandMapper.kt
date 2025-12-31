@@ -7,8 +7,6 @@ import com.sokdak.journal.application.commands.CreateJournalCommand
 import com.sokdak.journal.application.commands.GetJournalsCommand
 import com.sokdak.journal.application.commands.UpdateJournalCommand
 import com.sokdak.user.domain.valueobjects.UserId
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
-
 
 fun CreateJournalRequest.toCommand(): CreateJournalCommand {
     return CreateJournalCommand(

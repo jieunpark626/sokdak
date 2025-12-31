@@ -4,7 +4,6 @@ import com.sokdak.journal.adapter.inbound.api.dto.responses.JournalResponse
 import com.sokdak.journal.adapter.inbound.api.dto.responses.JournalSummaryResponse
 import com.sokdak.journal.domain.entities.Journal
 
-
 fun Journal.toResponse(): JournalResponse =
     JournalResponse(
         id = this.id.value,
