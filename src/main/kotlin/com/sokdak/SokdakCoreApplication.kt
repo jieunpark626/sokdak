@@ -1,4 +1,4 @@
-package ai.sokdak.core
+package com.sokdak
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
