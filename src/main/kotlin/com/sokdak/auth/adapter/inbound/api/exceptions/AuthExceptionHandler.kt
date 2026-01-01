@@ -4,7 +4,10 @@ import com.sokdak.auth.adapter.inbound.api.dto.responses.ApiErrorResponse
 import com.sokdak.auth.application.exceptions.AuthException
 import com.sokdak.auth.application.exceptions.DuplicateEmailException
 import com.sokdak.auth.application.exceptions.DuplicateLoginIdException
+import com.sokdak.auth.application.exceptions.InvalidCredentialsException
 import com.sokdak.auth.application.exceptions.InvalidPasswordException
+import com.sokdak.auth.application.exceptions.InvalidTokenException
+import com.sokdak.auth.application.exceptions.TokenExpiredException
 import com.sokdak.auth.application.exceptions.UserNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -28,6 +31,15 @@ class AuthExceptionHandler {
 
                 is UserNotFoundException ->
                     HttpStatus.NOT_FOUND to ErrorCode.USER_NOT_FOUND
+
+                is InvalidCredentialsException ->
+                    HttpStatus.UNAUTHORIZED to ErrorCode.INVALID_CREDENTIALS
+
+                is InvalidTokenException ->
+                    HttpStatus.UNAUTHORIZED to ErrorCode.INVALID_TOKEN
+
+                is TokenExpiredException ->
+                    HttpStatus.UNAUTHORIZED to ErrorCode.TOKEN_EXPIRED
             }
 
         return ResponseEntity

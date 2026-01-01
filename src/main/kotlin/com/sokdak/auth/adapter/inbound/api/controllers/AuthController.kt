@@ -1,9 +1,12 @@
 package com.sokdak.auth.adapter.inbound.api.controllers
 
+import com.sokdak.auth.adapter.inbound.api.dto.requests.LoginRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.RegisterUserRequest
+import com.sokdak.auth.adapter.inbound.api.dto.responses.LoginResponse
 import com.sokdak.auth.adapter.inbound.api.dto.responses.UserResponse
 import com.sokdak.auth.adapter.inbound.api.mappers.toCommand
 import com.sokdak.auth.adapter.inbound.api.mappers.toResponse
+import com.sokdak.auth.application.usecases.LoginUseCase
 import com.sokdak.auth.application.usecases.RegisterUserUseCase
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/auth")
 class AuthController(
     private val registerUserUseCase: RegisterUserUseCase,
+    private val loginUseCase: LoginUseCase,
 ) {
     @PostMapping("/register")
     fun register(
@@ -29,5 +33,16 @@ class AuthController(
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(response)
+    }
+
+    @PostMapping("/login")
+    fun login(
+        @Valid @RequestBody request: LoginRequest,
+    ): ResponseEntity<LoginResponse> {
+        val command = request.toCommand()
+        val result = loginUseCase.execute(command)
+        val response = result.toResponse()
+
+        return ResponseEntity.ok(response)
     }
 }

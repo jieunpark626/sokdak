@@ -3,12 +3,14 @@ package com.sokdak.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
+@EnableWebSecurity
 class SecurityConfig {
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -17,18 +19,20 @@ class SecurityConfig {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http
+        return http
             .csrf { it.disable() }
-            .authorizeHttpRequests {
-                it.requestMatchers("/auth/**", "/journals/**").permitAll()
-                it.anyRequest().authenticated()
+            .authorizeHttpRequests { authorize ->
+                authorize
+                    .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/journals/**").permitAll()
+                    .requestMatchers("/error").permitAll()
+                    .anyRequest().authenticated()
             }
-            .sessionManagement {
-                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .sessionManagement { session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .httpBasic { it.disable() }
             .formLogin { it.disable() }
-
-        return http.build()
+            .build()
     }
 }
