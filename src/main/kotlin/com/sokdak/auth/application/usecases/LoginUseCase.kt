@@ -2,10 +2,10 @@
 package com.sokdak.auth.application.usecases
 
 import com.sokdak.auth.application.commands.LoginCommand
+import com.sokdak.auth.application.dto.AuthTokenDto
+import com.sokdak.auth.application.dto.LoginResult
+import com.sokdak.auth.application.dto.UserDto
 import com.sokdak.auth.application.exceptions.InvalidCredentialsException
-import com.sokdak.auth.application.results.LoginResult
-import com.sokdak.auth.application.results.LoginUserResult
-import com.sokdak.auth.application.results.TokenResult
 import com.sokdak.auth.domain.repositories.UserRepository
 import com.sokdak.auth.domain.services.PasswordService
 import com.sokdak.auth.domain.services.TokenService
@@ -14,7 +14,7 @@ import com.sokdak.auth.domain.valueobjects.RawPassword
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-//TODO : 로그인 횟수 제한 ?
+// TODO : 로그인 횟수 제한 ?
 @Service
 class LoginUseCase(
     private val userRepository: UserRepository,
@@ -38,16 +38,16 @@ class LoginUseCase(
 
         return LoginResult(
             user =
-            LoginUserResult(
+            UserDto(
                 userId = user.id.value,
                 name = user.name,
             ),
-            token =
-            TokenResult(
+            tokens =
+            AuthTokenDto(
                 accessToken = tokens.accessToken,
                 refreshToken = tokens.refreshToken,
                 expiresInSeconds = tokens.expiresInSeconds,
-            ),
+            )
         )
     }
 }
