@@ -4,6 +4,3 @@ data class LoginResponse(
     val user: LoginUserResponse,
     val tokens: TokenResponse,
 )
-
-
-
