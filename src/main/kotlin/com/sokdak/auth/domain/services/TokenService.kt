@@ -7,4 +7,6 @@ interface TokenService {
     fun generateTokens(userId: UserId): AuthTokens
 
     fun validateToken(token: String): UserId
+
+    fun validateRefreshToken(token: String): UserId
 }

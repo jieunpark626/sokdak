@@ -14,25 +14,25 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.util.Date
-import java.util.concurrent.TimeUnit
 
 @Service
 class JwtTokenService(
     @Value("\${jwt.secret}") private val secret: String,
-    @Value("\${jwt.access-token-validity}") private val accessTokenValidityMs: Long,
-    @Value("\${jwt.refresh-token-validity}") private val refreshTokenValidityMs: Long,
+    @Value("\${jwt.access-token-validity-in-seconds}") private val accessTokenValidityInSeconds: Long,
+    @Value("\${jwt.refresh-token-validity-in-seconds}") private val refreshTokenValidityInSeconds: Long,
 ) : TokenService {
-    private val key = run {
-        require(secret.length >= 32) {
-            "JWT secret must be at least 32 characters (256 bits)"
+    private val key =
+        run {
+            require(secret.length >= 32) {
+                "JWT secret must be at least 32 characters (256 bits)"
+            }
+            Keys.hmacShaKeyFor(secret.toByteArray())
         }
-        Keys.hmacShaKeyFor(secret.toByteArray())
-    }
 
     override fun generateTokens(userId: UserId): AuthTokens {
         val now = Instant.now()
-        val accessTokenExpiry = now.plusMillis(accessTokenValidityMs)
-        val refreshTokenExpiry = now.plusMillis(refreshTokenValidityMs)
+        val accessTokenExpiry = now.plusSeconds(accessTokenValidityInSeconds)
+        val refreshTokenExpiry = now.plusSeconds(refreshTokenValidityInSeconds)
 
         val accessToken =
             Jwts
@@ -56,26 +56,51 @@ class JwtTokenService(
         return AuthTokens(
             accessToken = accessToken,
             refreshToken = refreshToken,
-            expiresInSeconds = TimeUnit.MILLISECONDS.toSeconds(accessTokenValidityMs),
+            expiresInSeconds = accessTokenValidityInSeconds,
         )
     }
 
     override fun validateToken(token: String): UserId {
         try {
-            val claims = Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .payload
+            val claims =
+                Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .payload
 
             if (claims["type"] == "refresh") {
                 throw InvalidTokenException("Refresh token cannot be used for authentication")
             }
 
             return UserId(claims.subject)
-
         } catch (e: ExpiredJwtException) {
             throw TokenExpiredException("Token has expired")
+        } catch (e: MalformedJwtException) {
+            throw InvalidTokenException("Malformed JWT token")
+        } catch (e: SignatureException) {
+            throw InvalidTokenException("Invalid JWT signature")
+        } catch (e: IllegalArgumentException) {
+            throw InvalidTokenException("JWT token is empty or invalid")
+        }
+    }
+
+    override fun validateRefreshToken(token: String): UserId {
+        try {
+            val claims =
+                Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .payload
+
+            if (claims["type"] != "refresh") {
+                throw InvalidTokenException("Access token cannot be used for token refresh")
+            }
+
+            return UserId(claims.subject)
+        } catch (e: ExpiredJwtException) {
+            throw TokenExpiredException("Refresh token has expired")
         } catch (e: MalformedJwtException) {
             throw InvalidTokenException("Malformed JWT token")
         } catch (e: SignatureException) {
