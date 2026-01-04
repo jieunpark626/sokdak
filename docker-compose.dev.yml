@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sokdak-core-db-dev
+    env_file:
+      - .env.dev
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - pgdata-dev:/var/lib/postgresql/data
+
+  app:
+    build: .
+    image: sokdak-core-api
+    container_name: sokdak-core-api-dev
+    env_file:
+      - .env.dev
+    ports:
+      - "${APP_PORT}:8080"
+    depends_on:
+      - db
+
+volumes:
+  pgdata-dev:

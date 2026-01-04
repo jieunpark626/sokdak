@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sokdak-core-db-prod
+    env_file:
+      - .env.prod
+    volumes:
+      - pgdata-prod:/var/lib/postgresql/data
+
+  app:
+    build: .
+    image: sokdak-core-api
+    container_name: sokdak-core-api-prod
+    env_file:
+      - .env.prod
+    ports:
+      - "${APP_PORT}:8080"
+    depends_on:
+      - db
+
+volumes:
+  pgdata-prod:
