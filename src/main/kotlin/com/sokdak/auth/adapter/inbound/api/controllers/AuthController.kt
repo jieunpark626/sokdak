@@ -1,6 +1,7 @@
 package com.sokdak.auth.adapter.inbound.api.controllers
 
 import com.sokdak.auth.adapter.inbound.api.dto.requests.LoginRequest
+import com.sokdak.auth.adapter.inbound.api.dto.requests.LogoutRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.RefreshTokenRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.RegisterUserRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.VerifyTokenRequest
@@ -11,6 +12,7 @@ import com.sokdak.auth.adapter.inbound.api.dto.responses.VerifyTokenResponse
 import com.sokdak.auth.adapter.inbound.api.mappers.toCommand
 import com.sokdak.auth.adapter.inbound.api.mappers.toResponse
 import com.sokdak.auth.application.usecases.LoginUseCase
+import com.sokdak.auth.application.usecases.LogoutUseCase
 import com.sokdak.auth.application.usecases.RefreshTokenUseCase
 import com.sokdak.auth.application.usecases.RegisterUserUseCase
 import com.sokdak.auth.application.usecases.VerifyTokenUseCase
@@ -29,6 +31,7 @@ class AuthController(
     private val loginUseCase: LoginUseCase,
     private val refreshTokenUseCase: RefreshTokenUseCase,
     private val verifyTokenUseCase: VerifyTokenUseCase,
+    private val logoutUseCase: LogoutUseCase,
 ) {
     @PostMapping("/register")
     fun register(
@@ -74,5 +77,15 @@ class AuthController(
         val response = result.toResponse()
 
         return ResponseEntity.ok(response)
+    }
+
+    @PostMapping("/logout")
+    fun logout(
+        @Valid @RequestBody request: LogoutRequest,
+    ): ResponseEntity<Void> {
+        val command = request.toCommand()
+        logoutUseCase.execute(command)
+
+        return ResponseEntity.noContent().build()
     }
 }

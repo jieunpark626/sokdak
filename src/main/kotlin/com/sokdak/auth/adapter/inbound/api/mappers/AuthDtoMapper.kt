@@ -1,6 +1,7 @@
 package com.sokdak.auth.adapter.inbound.api.mappers
 
 import com.sokdak.auth.adapter.inbound.api.dto.requests.LoginRequest
+import com.sokdak.auth.adapter.inbound.api.dto.requests.LogoutRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.RefreshTokenRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.RegisterUserRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.VerifyTokenRequest
@@ -10,6 +11,7 @@ import com.sokdak.auth.adapter.inbound.api.dto.responses.TokenResponse
 import com.sokdak.auth.adapter.inbound.api.dto.responses.UserResponse
 import com.sokdak.auth.adapter.inbound.api.dto.responses.VerifyTokenResponse
 import com.sokdak.auth.application.commands.LoginCommand
+import com.sokdak.auth.application.commands.LogoutCommand
 import com.sokdak.auth.application.commands.RefreshTokenCommand
 import com.sokdak.auth.application.commands.RegisterUserCommand
 import com.sokdak.auth.application.commands.VerifyTokenCommand
@@ -44,6 +46,11 @@ fun VerifyTokenRequest.toCommand() =
         token = this.token,
     )
 
+fun LogoutRequest.toCommand() =
+    LogoutCommand(
+        refreshToken = this.refreshToken,
+    )
+
 // Domain Entity -> Response 변환
 fun User.toResponse() =
     UserResponse(
@@ -58,16 +65,16 @@ fun User.toResponse() =
 fun LoginResult.toResponse() =
     LoginResponse(
         user =
-        LoginUserResponse(
-            id = this.user.userId,
-            name = this.user.name,
-        ),
+            LoginUserResponse(
+                id = this.user.userId,
+                name = this.user.name,
+            ),
         tokens =
-        TokenResponse(
-            accessToken = this.tokens.accessToken,
-            refreshToken = this.tokens.refreshToken,
-            expiresInSeconds = this.tokens.expiresInSeconds,
-        )
+            TokenResponse(
+                accessToken = this.tokens.accessToken,
+                refreshToken = this.tokens.refreshToken,
+                expiresInSeconds = this.tokens.expiresInSeconds,
+            ),
     )
 
 fun AuthTokens.toResponse() =

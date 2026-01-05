@@ -57,6 +57,7 @@ class JwtTokenService(
             accessToken = accessToken,
             refreshToken = refreshToken,
             expiresInSeconds = accessTokenValidityInSeconds,
+            refreshTokenExpiresInSeconds = refreshTokenValidityInSeconds,
         )
     }
 
