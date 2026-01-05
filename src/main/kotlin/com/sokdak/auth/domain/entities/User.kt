@@ -6,7 +6,6 @@ import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.HashedPassword
 import com.sokdak.auth.domain.valueobjects.LoginId
 import com.sokdak.auth.domain.valueobjects.UserId
-import de.huxhorn.sulky.ulid.ULID
 import java.time.Instant
 
 class User private constructor(
@@ -33,8 +32,6 @@ class User private constructor(
         private set
 
     companion object {
-        private val ulid = ULID()
-
         fun create(
             loginId: String,
             email: String,
