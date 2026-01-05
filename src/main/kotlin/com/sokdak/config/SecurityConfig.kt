@@ -8,10 +8,14 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
+) {
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder(12) // 강도(log rounds) 설정 가능
@@ -24,13 +28,16 @@ class SecurityConfig {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/journals/**").permitAll()
                     .requestMatchers("/error").permitAll()
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
+            .exceptionHandling { exception ->
+                exception.authenticationEntryPoint(customAuthenticationEntryPoint)
+            }
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .httpBasic { it.disable() }
             .formLogin { it.disable() }
             .build()
