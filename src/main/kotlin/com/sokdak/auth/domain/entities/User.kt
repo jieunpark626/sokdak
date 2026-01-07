@@ -18,6 +18,7 @@ class User private constructor(
     plan: Plan,
     val createdAt: Instant,
     updatedAt: Instant,
+    emailVerified: Boolean,
 ) {
     var passwordHash: HashedPassword = passwordHash
         private set
@@ -29,6 +30,9 @@ class User private constructor(
         private set
 
     var updatedAt: Instant = updatedAt
+        private set
+
+    var emailVerified: Boolean = emailVerified
         private set
 
     companion object {
@@ -53,6 +57,7 @@ class User private constructor(
                 plan = plan,
                 createdAt = now,
                 updatedAt = now,
+                emailVerified = false,
             )
         }
 
@@ -66,6 +71,7 @@ class User private constructor(
             plan: Plan,
             createdAt: Instant,
             updatedAt: Instant,
+            emailVerified: Boolean,
         ): User {
             return User(
                 id = id,
@@ -77,6 +83,7 @@ class User private constructor(
                 plan = plan,
                 createdAt = createdAt,
                 updatedAt = updatedAt,
+                emailVerified = emailVerified,
             )
         }
     }
@@ -99,6 +106,11 @@ class User private constructor(
 
     fun downgradePlan() {
         plan = Plan.FREE
+        updateTime()
+    }
+
+    fun verifyEmail() {
+        emailVerified = true
         updateTime()
     }
 

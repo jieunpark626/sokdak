@@ -19,6 +19,22 @@ spring:
         format_sql: true
         show_sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
 server:
   port: ${APP_PORT:8080}
 
@@ -42,3 +58,10 @@ jwt:
   secret: ${JWT_SECRET}
   access-token-validity-in-seconds: ${JWT_ACCESS_TOKEN_VALIDITY_IN_SECONDS}
   refresh-token-validity-in-seconds: ${JWT_REFRESH_TOKEN_VALIDITY_IN_SECONDS}
+
+email:
+  verification:
+    token-validity-in-seconds: ${EMAIL_VERIFICATION_TOKEN_VALIDITY_IN_SECONDS:3600}
+    from-address: ${EMAIL_FROM_ADDRESS}
+    from-name: ${EMAIL_FROM_NAME:Sokdak}
+    base-url: ${EMAIL_BASE_URL}

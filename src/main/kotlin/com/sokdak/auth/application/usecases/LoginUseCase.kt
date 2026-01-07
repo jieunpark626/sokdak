@@ -5,6 +5,7 @@ import com.sokdak.auth.application.commands.LoginCommand
 import com.sokdak.auth.application.dto.AuthTokenDto
 import com.sokdak.auth.application.dto.LoginResult
 import com.sokdak.auth.application.dto.UserDto
+import com.sokdak.auth.application.exceptions.EmailNotVerifiedException
 import com.sokdak.auth.application.exceptions.InvalidCredentialsException
 import com.sokdak.auth.domain.entities.RefreshToken
 import com.sokdak.auth.domain.repositories.RefreshTokenRepository
@@ -36,6 +37,11 @@ class LoginUseCase(
         val rawPassword = RawPassword.forLogin(command.password)
         if (!passwordService.matches(rawPassword, user.passwordHash)) {
             throw InvalidCredentialsException("Invalid login credentials")
+        }
+
+        // 이메일 인증 확인
+        if (!user.emailVerified) {
+            throw EmailNotVerifiedException("Email not verified. Please check your email for verification link.")
         }
 
         // 토큰 발급

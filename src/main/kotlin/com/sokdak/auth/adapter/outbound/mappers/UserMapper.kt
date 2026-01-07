@@ -23,6 +23,7 @@ class UserMapper {
             plan = Plan.valueOf(entity.plan),
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
+            emailVerified = entity.emailVerified,
         )
     }
 
@@ -37,6 +38,7 @@ class UserMapper {
             plan = domain.plan.name,
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt,
+            emailVerified = domain.emailVerified,
         )
     }
 }
