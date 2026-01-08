@@ -1,6 +1,7 @@
 package com.sokdak.auth.application.usecases
 
 import com.sokdak.auth.application.commands.RegisterUserCommand
+import com.sokdak.auth.application.commands.SendVerificationEmailCommand
 import com.sokdak.auth.application.exceptions.DuplicateEmailException
 import com.sokdak.auth.application.exceptions.DuplicateLoginIdException
 import com.sokdak.auth.domain.entities.User
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 class RegisterUserUseCase(
     private val userRepository: UserRepository,
     private val passwordService: PasswordService,
+    //TODO: usecase를 주입받지 않고 이벤트 기반으로 변경하기
+    private val sendVerificationEmailUseCase: SendVerificationEmailUseCase,
 ) {
     @Transactional
     fun execute(command: RegisterUserCommand): User {
@@ -47,6 +50,12 @@ class RegisterUserUseCase(
                 gender = Gender.valueOf(command.gender.uppercase()),
             )
 
-        return userRepository.save(user)
+        val savedUser = userRepository.save(user)
+
+        // 이메일 인증 메일 발송
+        val emailCommand = SendVerificationEmailCommand(userId = savedUser.id.value)
+        sendVerificationEmailUseCase.execute(emailCommand)
+
+        return savedUser
     }
 }

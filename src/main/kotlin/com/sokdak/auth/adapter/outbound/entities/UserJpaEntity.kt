@@ -28,4 +28,6 @@ class UserJpaEntity(
     val createdAt: Instant,
     @Column(name = "updated_at")
     var updatedAt: Instant,
+    @Column(name = "email_verified", nullable = false)
+    var emailVerified: Boolean = false,
 )
