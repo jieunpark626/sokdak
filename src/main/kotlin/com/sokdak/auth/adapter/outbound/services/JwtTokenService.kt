@@ -40,6 +40,7 @@ class JwtTokenService(
                 .subject(userId.value)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(accessTokenExpiry))
+                .claim("type", "access")
                 .signWith(key)
                 .compact()
 
@@ -70,8 +71,8 @@ class JwtTokenService(
                     .parseSignedClaims(token)
                     .payload
 
-            if (claims["type"] == "refresh") {
-                throw InvalidTokenException("Refresh token cannot be used for authentication")
+            if (claims["type"] != "access") {
+                throw InvalidTokenException("Invalid token type. Only access tokens can be used for authentication")
             }
 
             return UserId(claims.subject)

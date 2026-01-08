@@ -59,6 +59,10 @@ jwt:
   access-token-validity-in-seconds: ${JWT_ACCESS_TOKEN_VALIDITY_IN_SECONDS}
   refresh-token-validity-in-seconds: ${JWT_REFRESH_TOKEN_VALIDITY_IN_SECONDS}
 
+gateway:
+  security:
+    token: ${GATEWAY_SECURITY_TOKEN}
+
 email:
   verification:
     token-validity-in-seconds: ${EMAIL_VERIFICATION_TOKEN_VALIDITY_IN_SECONDS:3600}

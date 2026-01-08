@@ -12,6 +12,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
+/**
+ * @deprecated 이 필터는 더 이상 사용되지 않습니다.
+ * Gateway에서 JWT 검증을 수행하므로 GatewayAuthenticationFilter를 사용하세요.
+ * 이 클래스는 호환성 유지를 위해 남겨두었으며, 향후 버전에서 제거될 예정입니다.
+ */
+@Deprecated("Use GatewayAuthenticationFilter instead")
 @Component
 class JwtAuthenticationFilter(
     private val tokenService: TokenService,
