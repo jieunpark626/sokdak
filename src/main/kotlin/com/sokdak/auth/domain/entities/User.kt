@@ -6,7 +6,6 @@ import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.HashedPassword
 import com.sokdak.auth.domain.valueobjects.LoginId
 import com.sokdak.auth.domain.valueobjects.UserId
-import de.huxhorn.sulky.ulid.ULID
 import java.time.Instant
 
 class User private constructor(
@@ -19,6 +18,7 @@ class User private constructor(
     plan: Plan,
     val createdAt: Instant,
     updatedAt: Instant,
+    emailVerified: Boolean,
 ) {
     var passwordHash: HashedPassword = passwordHash
         private set
@@ -32,9 +32,10 @@ class User private constructor(
     var updatedAt: Instant = updatedAt
         private set
 
-    companion object {
-        private val ulid = ULID()
+    var emailVerified: Boolean = emailVerified
+        private set
 
+    companion object {
         fun create(
             loginId: String,
             email: String,
@@ -56,6 +57,7 @@ class User private constructor(
                 plan = plan,
                 createdAt = now,
                 updatedAt = now,
+                emailVerified = false,
             )
         }
 
@@ -69,6 +71,7 @@ class User private constructor(
             plan: Plan,
             createdAt: Instant,
             updatedAt: Instant,
+            emailVerified: Boolean,
         ): User {
             return User(
                 id = id,
@@ -80,6 +83,7 @@ class User private constructor(
                 plan = plan,
                 createdAt = createdAt,
                 updatedAt = updatedAt,
+                emailVerified = emailVerified,
             )
         }
     }
@@ -102,6 +106,11 @@ class User private constructor(
 
     fun downgradePlan() {
         plan = Plan.FREE
+        updateTime()
+    }
+
+    fun verifyEmail() {
+        emailVerified = true
         updateTime()
     }
 
