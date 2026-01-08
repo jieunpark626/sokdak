@@ -20,7 +20,7 @@ class SecurityConfig {
         http
             .csrf { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/auth/**", "/journals/**").permitAll()
+                it.requestMatchers("/auth/**", "/journals/**", "/users/**").permitAll()
                 it.anyRequest().authenticated()
             }
             .sessionManagement {
