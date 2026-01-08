@@ -10,6 +10,7 @@ import com.sokdak.auth.domain.services.PasswordService
 import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.LoginId
 import com.sokdak.auth.domain.valueobjects.RawPassword
+import com.sokdak.limit.application.usecases.InitializeUserLimitsUseCase
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class RegisterUserUseCase(
     private val userRepository: UserRepository,
     private val passwordService: PasswordService,
+    private val initializeUserLimitsUseCase: InitializeUserLimitsUseCase,
 ) {
     @Transactional
     fun execute(command: RegisterUserCommand): User {
@@ -47,6 +49,11 @@ class RegisterUserUseCase(
                 gender = Gender.valueOf(command.gender.uppercase()),
             )
 
-        return userRepository.save(user)
+        val savedUser = userRepository.save(user)
+
+        // 사용자 리밋 초기화 (FREE 플랜 기본값)
+        initializeUserLimitsUseCase.execute(savedUser.id.value, savedUser.plan)
+
+        return savedUser
     }
 }
