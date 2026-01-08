@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
-//TODO: 비동기로 바꾸거나 이벤트 기반으로 변경하기
+// TODO: 비동기로 바꾸거나 이벤트 기반으로 변경하기
 @Service
 class SendVerificationEmailUseCase(
     private val userRepository: UserRepository,
@@ -47,7 +47,7 @@ class SendVerificationEmailUseCase(
                 verificationToken = verification.token,
             )
         } catch (e: Exception) {
-            //TODO: 이메일이 가지 않더라도 회원가입을 완료할 수 있도록
+            // TODO: 이메일이 가지 않더라도 회원가입을 완료할 수 있도록
             throw EmailSendFailedException("Failed to send verification email: ${e.message}")
         }
     }

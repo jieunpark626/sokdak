@@ -20,7 +20,7 @@ class RegisterUserUseCase(
     private val userRepository: UserRepository,
     private val passwordService: PasswordService,
     private val initializeUserLimitsUseCase: InitializeUserLimitsUseCase,
-    //TODO: usecase를 주입받지 않고 이벤트 기반으로 변경하기
+    // TODO: usecase를 주입받지 않고 이벤트 기반으로 변경하기
     private val sendVerificationEmailUseCase: SendVerificationEmailUseCase,
 ) {
     @Transactional

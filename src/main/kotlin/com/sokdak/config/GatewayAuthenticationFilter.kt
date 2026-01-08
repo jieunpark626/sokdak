@@ -68,7 +68,7 @@ class GatewayAuthenticationFilter(
                     UsernamePasswordAuthenticationToken(
                         userId,
                         null,
-                        emptyList(), // 필요시 권한 추가 가능
+                        emptyList(),
                     )
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 

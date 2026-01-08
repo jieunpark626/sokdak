@@ -79,16 +79,16 @@ fun User.toResponse() =
 fun LoginResult.toResponse() =
     LoginResponse(
         user =
-        LoginUserResponse(
-            id = this.user.userId,
-            name = this.user.name,
-        ),
+            LoginUserResponse(
+                id = this.user.userId,
+                name = this.user.name,
+            ),
         tokens =
-        TokenResponse(
-            accessToken = this.tokens.accessToken,
-            refreshToken = this.tokens.refreshToken,
-            expiresInSeconds = this.tokens.expiresInSeconds,
-        ),
+            TokenResponse(
+                accessToken = this.tokens.accessToken,
+                refreshToken = this.tokens.refreshToken,
+                expiresInSeconds = this.tokens.expiresInSeconds,
+            ),
     )
 
 fun AuthTokens.toResponse() =
