@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = ["com.sokdak.journal"])
 class JournalExceptionHandler {
     // 404 - 일기 없음
     @ExceptionHandler(JournalNotFoundException::class)
@@ -48,7 +48,7 @@ class JournalExceptionHandler {
             .body(
                 ErrorResponse(
                     code = ErrorCode.INTERNAL_SERVER_ERROR.name,
-                    message = "Internal server error",
+                    message = e.message ?: "Internal server error",
                 ),
             )
     }
