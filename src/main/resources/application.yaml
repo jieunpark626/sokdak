@@ -63,6 +63,7 @@ jwt:
 gateway:
   security:
     token: ${GATEWAY_SECURITY_TOKEN}
+  base-url: ${GATEWAY_BASE_URL}
 
 email:
   verification:

@@ -22,6 +22,7 @@ import com.sokdak.auth.application.usecases.ResendVerificationEmailUseCase
 import com.sokdak.auth.application.usecases.VerifyEmailUseCase
 import com.sokdak.auth.application.usecases.VerifyTokenUseCase
 import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -43,6 +44,7 @@ class AuthController(
     private val logoutUseCase: LogoutUseCase,
     private val verifyEmailUseCase: VerifyEmailUseCase,
     private val resendVerificationEmailUseCase: ResendVerificationEmailUseCase,
+    @Value("\${gateway.base-url}") private val gatewayBaseUrl: String,
 ) {
     @ResponseBody
     @PostMapping("/register")
@@ -112,10 +114,10 @@ class AuthController(
         return try {
             val command = VerifyEmailCommand(token = token)
             verifyEmailUseCase.execute(command)
-            "redirect:/auth/verify-success"
+            "redirect:$gatewayBaseUrl/auth/verify-success"
         } catch (e: Exception) {
             val errorMessage = e.message ?: "이메일 인증에 실패했습니다."
-            "redirect:/auth/verify-error?message=$errorMessage"
+            "redirect:$gatewayBaseUrl/auth/verify-error?message=$errorMessage"
         }
     }
 
