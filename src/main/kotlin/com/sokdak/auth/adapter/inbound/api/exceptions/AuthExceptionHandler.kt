@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = ["com.sokdak.auth"])
 class AuthExceptionHandler {
     @ExceptionHandler(AuthException::class)
     fun handleAuthException(e: AuthException): ResponseEntity<ApiErrorResponse> {

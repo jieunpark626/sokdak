@@ -11,6 +11,7 @@ import com.sokdak.auth.domain.services.PasswordService
 import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.LoginId
 import com.sokdak.auth.domain.valueobjects.RawPassword
+import com.sokdak.limit.application.usecases.InitializeUserLimitsUseCase
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 class RegisterUserUseCase(
     private val userRepository: UserRepository,
     private val passwordService: PasswordService,
+    private val initializeUserLimitsUseCase: InitializeUserLimitsUseCase,
     //TODO: usecase를 주입받지 않고 이벤트 기반으로 변경하기
     private val sendVerificationEmailUseCase: SendVerificationEmailUseCase,
 ) {
@@ -52,6 +54,8 @@ class RegisterUserUseCase(
 
         val savedUser = userRepository.save(user)
 
+        // 사용자 리밋 초기화 (FREE 플랜 기본값)
+        initializeUserLimitsUseCase.execute(savedUser.id.value, savedUser.plan)
         // 이메일 인증 메일 발송
         val emailCommand = SendVerificationEmailCommand(userId = savedUser.id.value)
         sendVerificationEmailUseCase.execute(emailCommand)

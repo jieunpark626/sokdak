@@ -1,29 +1,41 @@
-package com.sokdak.journal.adapter.inbound.api.exceptions
+package com.sokdak.limit.adapter.inbound.api.exceptions
 
-import com.sokdak.journal.adapter.inbound.api.dto.responses.ErrorResponse
-import com.sokdak.journal.application.exceptions.JournalNotFoundException
+import com.sokdak.limit.adapter.inbound.api.dto.responses.ErrorResponse
+import com.sokdak.limit.application.exceptions.LimitExceededException
+import com.sokdak.limit.application.exceptions.LimitNotFoundException
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice(basePackages = ["com.sokdak.journal"])
-class JournalExceptionHandler {
-    // 404 - 일기 없음
-    @ExceptionHandler(JournalNotFoundException::class)
-    fun handleJournalNotFound(e: JournalNotFoundException): ResponseEntity<ErrorResponse> {
-        return ResponseEntity
+@RestControllerAdvice(basePackages = ["com.sokdak.limit"])
+class LimitExceptionHandler {
+    private val logger = LoggerFactory.getLogger(LimitExceptionHandler::class.java)
+
+    @ExceptionHandler(LimitNotFoundException::class)
+    fun handleLimitNotFound(e: LimitNotFoundException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(
                 ErrorResponse(
-                    code = ErrorCode.JOURNAL_NOT_FOUND.name,
-                    message = e.message ?: "Journal not found",
+                    code = ErrorCode.LIMIT_NOT_FOUND.name,
+                    message = e.message ?: "Limit not found",
                 ),
             )
-    }
 
-    // 400 - Validation 에러 (@Valid)
+    @ExceptionHandler(LimitExceededException::class)
+    fun handleLimitExceeded(e: LimitExceededException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.TOO_MANY_REQUESTS)
+            .body(
+                ErrorResponse(
+                    code = ErrorCode.LIMIT_EXCEEDED.name,
+                    message = e.message ?: "Daily limit exceeded",
+                ),
+            )
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidation(e: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
         val message =
@@ -40,9 +52,9 @@ class JournalExceptionHandler {
             )
     }
 
-    // 500 - 나머지 전부
     @ExceptionHandler(Exception::class)
     fun handleException(e: Exception): ResponseEntity<ErrorResponse> {
+        logger.error("Unexpected error occurred", e)
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(
