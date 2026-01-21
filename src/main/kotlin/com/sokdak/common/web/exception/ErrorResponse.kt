@@ -1,9 +1,11 @@
-package com.sokdak.journal.adapter.inbound.api.dto.responses
+package com.sokdak.common.web.exception
 
 import java.time.Instant
 
 data class ErrorResponse(
     val timestamp: Instant = Instant.now(),
+    val status: Int,
     val code: String,
     val message: String,
+    val path: String? = null,
 )

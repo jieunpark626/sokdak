@@ -1,26 +1,19 @@
 package com.sokdak.common.web.exception
 
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.core.annotation.Order
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+/**
+ * 전역 예외 처리
+ *
+ * 도메인별 핸들러가 처리하지 못한 예외를 처리합니다.
+ * 처리하는 예외:
+ * - MethodArgumentNotValidException (Validation)
+ * - IllegalArgumentException (VO 검증)
+ * - Exception (500 에러, catch-all)
+ *
+ * @see BaseExceptionHandler
+ */
 @RestControllerAdvice
-class GlobalExceptionHandler {
-    // 1. VO나 비즈니스 로직에서 던지는 IllegalArgumentException 처리
-    @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgument(e: IllegalArgumentException): ResponseEntity<ErrorBody> {
-        return ResponseEntity.badRequest()
-            .body(ErrorBody(message = e.message ?: "Invalid input"))
-    }
-
-    // 2. DTO의 @NotBlank 등 검증 실패 시 발생하는 에러 처리
-    @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleValidation(e: MethodArgumentNotValidException): ResponseEntity<ErrorBody> {
-        val message = e.bindingResult.fieldErrors.firstOrNull()?.defaultMessage ?: "Validation failed"
-        return ResponseEntity.badRequest()
-            .body(ErrorBody(message = message))
-    }
-
-    data class ErrorBody(val message: String)
-}
+@Order(Int.MAX_VALUE) // 가장 낮은 우선순위 (도메인별 핸들러가 먼저 처리)
+class GlobalExceptionHandler : BaseExceptionHandler()
