@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.config.CustomAuthenticationEntryPoint
 import com.sokdak.config.GatewayAuthenticationFilter
-import com.sokdak.config.JwtAuthenticationFilter
 import com.sokdak.limit.adapter.inbound.api.dto.requests.ConsumeUsageLimitRequest
 import com.sokdak.limit.application.usecases.ConsumeUsageLimitUseCase
 import com.sokdak.limit.application.usecases.GetUserLimitsUseCase
@@ -18,7 +17,7 @@ import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
@@ -40,22 +39,19 @@ class UserLimitControllerTest {
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
-    @MockBean
+    @MockitoBean
     private lateinit var getUserLimitsUseCase: GetUserLimitsUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var consumeUsageLimitUseCase: ConsumeUsageLimitUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var gatewayAuthenticationFilter: GatewayAuthenticationFilter
 
-    @MockBean
+    @MockitoBean
     private lateinit var customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 
-    @MockBean
-    private lateinit var jwtAuthenticationFilter: JwtAuthenticationFilter
-
-    @MockBean
+    @MockitoBean
     private lateinit var tokenService: TokenService
 
     private val testLimit =

@@ -9,7 +9,6 @@ import com.sokdak.auth.application.dto.UserDto
 import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.config.CustomAuthenticationEntryPoint
 import com.sokdak.config.GatewayAuthenticationFilter
-import com.sokdak.config.JwtAuthenticationFilter
 import com.sokdak.auth.application.usecases.LoginUseCase
 import com.sokdak.auth.application.usecases.LogoutUseCase
 import com.sokdak.auth.application.usecases.RefreshTokenUseCase
@@ -32,7 +31,7 @@ import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
@@ -51,37 +50,34 @@ class AuthControllerTest {
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
-    @MockBean
+    @MockitoBean
     private lateinit var registerUserUseCase: RegisterUserUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var loginUseCase: LoginUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var refreshTokenUseCase: RefreshTokenUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var verifyTokenUseCase: VerifyTokenUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var logoutUseCase: LogoutUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var verifyEmailUseCase: VerifyEmailUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var resendVerificationEmailUseCase: ResendVerificationEmailUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var gatewayAuthenticationFilter: GatewayAuthenticationFilter
 
-    @MockBean
+    @MockitoBean
     private lateinit var customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 
-    @MockBean
-    private lateinit var jwtAuthenticationFilter: JwtAuthenticationFilter
-
-    @MockBean
+    @MockitoBean
     private lateinit var tokenService: TokenService
 
     private fun createTestUser(): User =

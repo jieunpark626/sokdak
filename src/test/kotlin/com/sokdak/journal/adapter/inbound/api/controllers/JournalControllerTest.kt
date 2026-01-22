@@ -6,7 +6,6 @@ import com.sokdak.journal.adapter.inbound.api.dto.requests.UpdateJournalRequest
 import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.config.CustomAuthenticationEntryPoint
 import com.sokdak.config.GatewayAuthenticationFilter
-import com.sokdak.config.JwtAuthenticationFilter
 import com.sokdak.journal.application.usecases.CreateJournalUseCase
 import com.sokdak.journal.application.usecases.DeleteJournalUseCase
 import com.sokdak.journal.application.usecases.GetJournalUseCase
@@ -24,7 +23,7 @@ import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
@@ -47,31 +46,28 @@ class JournalControllerTest {
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
-    @MockBean
+    @MockitoBean
     private lateinit var createJournalUseCase: CreateJournalUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var getJournalsUseCase: GetJournalsUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var getJournalUseCase: GetJournalUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var updateJournalUseCase: UpdateJournalUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var deleteJournalUseCase: DeleteJournalUseCase
 
-    @MockBean
+    @MockitoBean
     private lateinit var gatewayAuthenticationFilter: GatewayAuthenticationFilter
 
-    @MockBean
+    @MockitoBean
     private lateinit var customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 
-    @MockBean
-    private lateinit var jwtAuthenticationFilter: JwtAuthenticationFilter
-
-    @MockBean
+    @MockitoBean
     private lateinit var tokenService: TokenService
 
     private fun createTestJournal(
