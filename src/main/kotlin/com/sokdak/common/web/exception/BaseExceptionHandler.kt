@@ -10,19 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 /**
  * 모든 도메인별 ExceptionHandler가 상속받는 추상 클래스
  *
- * 공통 기능:
- * - 에러 응답 빌드 (buildErrorResponse)
- * - 로깅 유틸 (logWarn, logError)
- * - 공통 예외 처리 (Validation, IllegalArgument, 500)
+ * - 에러 응답 포맷 통일
+ * - 로깅 정책 일관화
+ * - 공통 예외 처리
  */
 abstract class BaseExceptionHandler {
     protected val log: Logger = LoggerFactory.getLogger(this::class.java)
 
-    // ==================== 공통 예외 처리 ====================
-
-    /**
-     * Validation 에러 (@Valid)
-     */
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidation(
         e: MethodArgumentNotValidException,
@@ -36,9 +30,6 @@ abstract class BaseExceptionHandler {
         return buildErrorResponse(ErrorCode.INVALID_REQUEST, message, request)
     }
 
-    /**
-     * IllegalArgumentException (VO, 비즈니스 로직 검증)
-     */
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgument(
         e: IllegalArgumentException,
@@ -48,9 +39,6 @@ abstract class BaseExceptionHandler {
         return buildErrorResponse(ErrorCode.INVALID_REQUEST, e.message, request)
     }
 
-    /**
-     * 500 - 나머지 모든 예외 (반드시 스택트레이스 로깅!)
-     */
     @ExceptionHandler(Exception::class)
     fun handleException(
         e: Exception,
@@ -65,7 +53,6 @@ abstract class BaseExceptionHandler {
     }
 
     // ==================== 유틸리티 메서드 ====================
-
     /**
      * 에러 응답 빌드
      */

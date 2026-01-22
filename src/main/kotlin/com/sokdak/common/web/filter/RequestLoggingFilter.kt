@@ -27,14 +27,6 @@ class RequestLoggingFilter : OncePerRequestFilter() {
         MDC.put("requestId", requestId)
 
         try {
-            log.debug(
-                "[Request] {} {} | ip={} | user-agent={}",
-                request.method,
-                request.requestURI,
-                request.remoteAddr,
-                request.getHeader("User-Agent")?.take(100) ?: "-",
-            )
-
             filterChain.doFilter(request, response)
         } finally {
             val duration = System.currentTimeMillis() - startTime
@@ -43,23 +35,28 @@ class RequestLoggingFilter : OncePerRequestFilter() {
             when {
                 status >= 500 ->
                     log.error(
-                        "[Response] {} {} | status={} | duration={}ms",
+                        "[{}] {} {} | status={} | duration={}ms | ip={}",
+                        requestId,
                         request.method,
                         request.requestURI,
                         status,
                         duration,
+                        request.remoteAddr,
                     )
                 status >= 400 ->
                     log.warn(
-                        "[Response] {} {} | status={} | duration={}ms",
+                        "[{}] {} {} | status={} | duration={}ms | ip={}",
+                        requestId,
                         request.method,
                         request.requestURI,
                         status,
                         duration,
+                        request.remoteAddr,
                     )
                 else ->
-                    log.debug(
-                        "[Response] {} {} | status={} | duration={}ms",
+                    log.info(
+                        "[{}] {} {} | status={} | duration={}ms",
+                        requestId,
                         request.method,
                         request.requestURI,
                         status,
