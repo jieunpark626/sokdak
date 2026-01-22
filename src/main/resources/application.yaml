@@ -17,11 +17,12 @@ spring:
       ddl-auto: ${SPRING_JPA_DDL_AUTO:update}
     properties:
       hibernate:
-        format_sql: true
-        show_sql: true
+        format_sql: false
+        show_sql: false
 
   mail:
     host: smtp.gmail.com
+
     port: 587
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
@@ -41,10 +42,10 @@ server:
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql: trace
-    org.springframework.security: DEBUG
-    com.sokdak: DEBUG
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql: WARN
+    org.springframework.security: WARN
+    com.sokdak: INFO
 
 management:
   endpoints:
