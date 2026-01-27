@@ -17,6 +17,7 @@ import com.sokdak.common.web.exception.BaseExceptionHandler
 import com.sokdak.common.web.exception.ErrorCode
 import com.sokdak.common.web.exception.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
  * Auth 도메인 전용 예외 처리
  */
 @RestControllerAdvice(basePackages = ["com.sokdak.auth"])
+@Order(0)
 class AuthExceptionHandler : BaseExceptionHandler() {
     @ExceptionHandler(AuthException::class)
     fun handleAuthException(

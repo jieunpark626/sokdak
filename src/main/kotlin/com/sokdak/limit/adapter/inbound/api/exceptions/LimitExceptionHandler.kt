@@ -6,6 +6,7 @@ import com.sokdak.common.web.exception.ErrorResponse
 import com.sokdak.limit.application.exceptions.LimitExceededException
 import com.sokdak.limit.application.exceptions.LimitNotFoundException
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
  * Limit 도메인 전용 예외 처리
  */
 @RestControllerAdvice(basePackages = ["com.sokdak.limit"])
+@Order(0)
 class LimitExceptionHandler : BaseExceptionHandler() {
     @ExceptionHandler(LimitNotFoundException::class)
     fun handleLimitNotFound(
