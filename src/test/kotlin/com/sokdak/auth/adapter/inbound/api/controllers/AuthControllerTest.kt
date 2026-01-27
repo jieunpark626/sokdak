@@ -6,9 +6,6 @@ import com.sokdak.auth.adapter.inbound.api.dto.requests.RegisterUserRequest
 import com.sokdak.auth.application.dto.AuthTokenDto
 import com.sokdak.auth.application.dto.LoginResult
 import com.sokdak.auth.application.dto.UserDto
-import com.sokdak.auth.domain.services.TokenService
-import com.sokdak.config.CustomAuthenticationEntryPoint
-import com.sokdak.config.GatewayAuthenticationFilter
 import com.sokdak.auth.application.usecases.LoginUseCase
 import com.sokdak.auth.application.usecases.LogoutUseCase
 import com.sokdak.auth.application.usecases.RefreshTokenUseCase
@@ -19,10 +16,13 @@ import com.sokdak.auth.application.usecases.VerifyTokenUseCase
 import com.sokdak.auth.domain.entities.User
 import com.sokdak.auth.domain.enums.Gender
 import com.sokdak.auth.domain.enums.Plan
+import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.HashedPassword
 import com.sokdak.auth.domain.valueobjects.LoginId
 import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.config.CustomAuthenticationEntryPoint
+import com.sokdak.config.GatewayAuthenticationFilter
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -31,9 +31,9 @@ import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath

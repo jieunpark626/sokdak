@@ -1,11 +1,11 @@
 package com.sokdak.journal.adapter.inbound.api.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.sokdak.journal.adapter.inbound.api.dto.requests.CreateJournalRequest
-import com.sokdak.journal.adapter.inbound.api.dto.requests.UpdateJournalRequest
 import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.config.CustomAuthenticationEntryPoint
 import com.sokdak.config.GatewayAuthenticationFilter
+import com.sokdak.journal.adapter.inbound.api.dto.requests.CreateJournalRequest
+import com.sokdak.journal.adapter.inbound.api.dto.requests.UpdateJournalRequest
 import com.sokdak.journal.application.usecases.CreateJournalUseCase
 import com.sokdak.journal.application.usecases.DeleteJournalUseCase
 import com.sokdak.journal.application.usecases.GetJournalUseCase
@@ -23,10 +23,10 @@ import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -113,7 +113,6 @@ class JournalControllerTest {
                 .andExpect(jsonPath("$.title").value("테스트 일기"))
                 .andExpect(jsonPath("$.content").value("테스트 내용입니다."))
         }
-
     }
 
     @Nested
