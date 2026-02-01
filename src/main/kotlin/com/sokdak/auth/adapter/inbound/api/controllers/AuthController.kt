@@ -79,7 +79,7 @@ class AuthController(
         val result = loginUseCase.execute(command)
 
         setRefreshTokenCookie(response, result.tokens.refreshToken, result.tokens.refreshTokenExpiresInSeconds)
-        
+
         return ResponseEntity.ok(result.toResponse())
     }
 
