@@ -185,6 +185,7 @@ class AuthControllerTest {
                             accessToken = "access-token",
                             refreshToken = "refresh-token",
                             expiresInSeconds = 3600,
+                            refreshTokenExpiresInSeconds = 604800,
                         ),
                 )
             given(loginUseCase.execute(any())).willReturn(loginResult)
