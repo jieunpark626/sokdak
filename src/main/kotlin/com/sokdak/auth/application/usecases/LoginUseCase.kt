@@ -68,6 +68,7 @@ class LoginUseCase(
                     accessToken = tokens.accessToken,
                     refreshToken = tokens.refreshToken,
                     expiresInSeconds = tokens.expiresInSeconds,
+                    refreshTokenExpiresInSeconds = tokens.refreshTokenExpiresInSeconds,
                 ),
         )
     }

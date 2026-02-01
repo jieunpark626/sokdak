@@ -66,6 +66,9 @@ gateway:
     token: ${GATEWAY_SECURITY_TOKEN}
   base-url: ${GATEWAY_BASE_URL}
 
+cookie:
+  secure: ${COOKIE_SECURE:true}  # 로컬 개발 시 COOKIE_SECURE=false 설정
+
 email:
   verification:
     token-validity-in-seconds: ${EMAIL_VERIFICATION_TOKEN_VALIDITY_IN_SECONDS:3600}
