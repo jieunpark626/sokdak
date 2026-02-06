@@ -3,6 +3,7 @@ package com.sokdak.config
 import com.sokdak.auth.application.exceptions.InvalidTokenException
 import com.sokdak.auth.application.exceptions.TokenExpiredException
 import com.sokdak.auth.domain.services.TokenService
+import com.sokdak.common.constants.HttpHeaders
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -60,10 +61,10 @@ class JwtAuthenticationFilter(
     }
 
     private fun extractTokenFromRequest(request: HttpServletRequest): String? {
-        val authHeader = request.getHeader("Authorization")
+        val authHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
 
-        return if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            authHeader.substring(7)
+        return if (authHeader != null && authHeader.startsWith(HttpHeaders.BEARER_PREFIX)) {
+            authHeader.substring(HttpHeaders.BEARER_PREFIX.length)
         } else {
             null
         }

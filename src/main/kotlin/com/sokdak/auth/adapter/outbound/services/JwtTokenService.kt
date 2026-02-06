@@ -4,7 +4,7 @@ import com.sokdak.auth.application.exceptions.InvalidTokenException
 import com.sokdak.auth.application.exceptions.TokenExpiredException
 import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.auth.domain.valueobjects.AuthTokens
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException

@@ -1,6 +1,6 @@
 package com.sokdak.randomchat.domain.repositories
 
-import com.sokdak.user.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 
 interface MatchingRepository {
     fun joinQueue(userId: UserId)

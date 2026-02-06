@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
  * - 공통 예외 처리
  */
 abstract class BaseExceptionHandler {
-    protected val log: Logger = LoggerFactory.getLogger(this::class.java)
+    protected val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidation(

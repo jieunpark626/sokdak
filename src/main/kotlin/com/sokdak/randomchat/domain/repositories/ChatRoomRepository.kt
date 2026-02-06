@@ -1,8 +1,8 @@
 package com.sokdak.randomchat.domain.repositories
 
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.randomchat.domain.entities.ChatRoom
 import com.sokdak.randomchat.domain.valueobjects.ChatRoomId
-import com.sokdak.user.domain.valueobjects.UserId
 
 interface ChatRoomRepository {
     fun create(

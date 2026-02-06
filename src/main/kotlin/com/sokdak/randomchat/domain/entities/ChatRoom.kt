@@ -1,8 +1,8 @@
 package com.sokdak.randomchat.domain.entities
 
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.randomchat.domain.enums.ChatStatus
 import com.sokdak.randomchat.domain.valueobjects.ChatRoomId
-import com.sokdak.user.domain.valueobjects.UserId
 import java.time.Instant
 
 data class ChatRoom(
