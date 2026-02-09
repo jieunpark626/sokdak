@@ -25,7 +25,7 @@ class WebSocketAuthInterceptor(
     ): Boolean {
         val headers = request.headers
 
-        // Gateway 토큰 검증
+        // Gateway 토큰 검증 - (중복)
         if (gatewaySecurityToken.isNotBlank()) {
             val gatewayToken = headers.getFirst(HttpHeaders.GATEWAY_TOKEN)
             if (gatewayToken != gatewaySecurityToken) {

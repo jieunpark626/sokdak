@@ -23,9 +23,4 @@ class WebSocketSessionManager {
     fun get(userId: UserId): WebSocketSession? {
         return sessions[userId.value]
     }
-
-    fun isConnected(userId: UserId): Boolean {
-        val session = sessions[userId.value]
-        return session?.isOpen == true
-    }
 }

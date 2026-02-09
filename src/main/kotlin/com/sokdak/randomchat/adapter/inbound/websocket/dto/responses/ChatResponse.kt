@@ -1,11 +1,11 @@
 package com.sokdak.randomchat.adapter.inbound.websocket.dto.responses
 
+// TODO
 sealed class ChatResponse {
     abstract val type: String
     abstract val timestamp: Long
 
     data class QueueJoined(
-        val position: Int,
         override val timestamp: Long = System.currentTimeMillis(),
     ) : ChatResponse() {
         override val type: String = "QUEUE_JOINED"

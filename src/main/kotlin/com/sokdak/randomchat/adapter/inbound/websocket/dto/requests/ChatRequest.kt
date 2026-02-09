@@ -17,9 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 sealed class ChatRequest {
     data object JoinQueue : ChatRequest()
 
-    data object LeaveQueue : ChatRequest()
+    data object LeaveQueue : ChatRequest() // 대기열 이탈 (매칭 도중 나감)
 
-    data class SendMessage(val content: String) : ChatRequest()
+    data class SendMessage(val content: String) : ChatRequest() // 메시지 전송
 
-    data object ExitRoom : ChatRequest()
+    data object ExitRoom : ChatRequest() // 방 나가기 (매칭 이후 채팅 중에 나감)
 }
