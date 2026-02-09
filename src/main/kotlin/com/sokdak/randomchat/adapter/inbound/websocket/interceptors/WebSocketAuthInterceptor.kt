@@ -25,13 +25,11 @@ class WebSocketAuthInterceptor(
     ): Boolean {
         val headers = request.headers
 
-        // Gateway 토큰 검증 - (중복)
-        if (gatewaySecurityToken.isNotBlank()) {
-            val gatewayToken = headers.getFirst(HttpHeaders.GATEWAY_TOKEN)
-            if (gatewayToken != gatewaySecurityToken) {
-                log.warn("Invalid gateway token for WebSocket connection")
-                return false
-            }
+        // Gateway 토큰 검증
+        val gatewayToken = headers.getFirst(HttpHeaders.GATEWAY_TOKEN)
+        if (gatewaySecurityToken.isBlank() || gatewayToken != gatewaySecurityToken) {
+            log.warn("Invalid gateway token for WebSocket connection")
+            return false
         }
 
         // 사용자 ID 추출

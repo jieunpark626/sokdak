@@ -57,14 +57,18 @@ class RandomChatWebSocketHandler(
         }
     }
 
-    //3. 접속이 끊겼을 때
+    // 3. 접속이 끊겼을 때
     override fun afterConnectionClosed(
         session: WebSocketSession,
         status: CloseStatus,
     ) {
         val userId = extractUserId(session)
         sessionManager.remove(userId)
-        handleDisconnectionUseCase.execute(userId)
+        try {
+            handleDisconnectionUseCase.execute(userId)
+        } catch (e: Exception) {
+            log.warn("Failed to handle disconnection: userId={}", userId.value, e)
+        }
         log.info("WebSocket disconnected: userId={}, status={}", userId.value, status)
     }
 
