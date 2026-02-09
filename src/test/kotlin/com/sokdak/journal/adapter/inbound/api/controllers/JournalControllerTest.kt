@@ -2,6 +2,7 @@ package com.sokdak.journal.adapter.inbound.api.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.sokdak.auth.domain.services.TokenService
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.config.CustomAuthenticationEntryPoint
 import com.sokdak.config.GatewayAuthenticationFilter
 import com.sokdak.journal.adapter.inbound.api.dto.requests.CreateJournalRequest
@@ -13,7 +14,6 @@ import com.sokdak.journal.application.usecases.GetJournalsUseCase
 import com.sokdak.journal.application.usecases.UpdateJournalUseCase
 import com.sokdak.journal.domain.entities.Journal
 import com.sokdak.journal.domain.valueobjects.JournalId
-import com.sokdak.user.domain.valueobjects.UserId
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

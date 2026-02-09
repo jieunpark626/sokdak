@@ -20,7 +20,7 @@ import com.sokdak.auth.domain.services.TokenService
 import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.HashedPassword
 import com.sokdak.auth.domain.valueobjects.LoginId
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.config.CustomAuthenticationEntryPoint
 import com.sokdak.config.GatewayAuthenticationFilter
 import org.junit.jupiter.api.DisplayName
