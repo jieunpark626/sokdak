@@ -3,7 +3,7 @@ package com.sokdak.auth.adapter.outbound.repositories
 import com.sokdak.auth.adapter.outbound.mappers.RefreshTokenMapper
 import com.sokdak.auth.domain.entities.RefreshToken
 import com.sokdak.auth.domain.repositories.RefreshTokenRepository
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant

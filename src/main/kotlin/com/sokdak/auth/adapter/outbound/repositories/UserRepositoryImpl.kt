@@ -5,7 +5,7 @@ import com.sokdak.auth.domain.entities.User
 import com.sokdak.auth.domain.repositories.UserRepository
 import com.sokdak.auth.domain.valueobjects.Email
 import com.sokdak.auth.domain.valueobjects.LoginId
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import org.springframework.stereotype.Repository
 
 @Repository

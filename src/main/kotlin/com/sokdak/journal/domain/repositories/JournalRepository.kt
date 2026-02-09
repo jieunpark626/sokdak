@@ -1,8 +1,8 @@
 package com.sokdak.journal.domain.repositories
 
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.journal.domain.entities.Journal
 import com.sokdak.journal.domain.valueobjects.JournalId
-import com.sokdak.user.domain.valueobjects.UserId
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import java.time.Instant

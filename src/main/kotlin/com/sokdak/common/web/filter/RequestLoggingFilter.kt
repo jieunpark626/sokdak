@@ -14,7 +14,7 @@ import java.util.UUID
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class RequestLoggingFilter : OncePerRequestFilter() {
-    private val log = LoggerFactory.getLogger(RequestLoggingFilter::class.java)
+    private val log = LoggerFactory.getLogger(javaClass)
 
     override fun doFilterInternal(
         request: HttpServletRequest,
