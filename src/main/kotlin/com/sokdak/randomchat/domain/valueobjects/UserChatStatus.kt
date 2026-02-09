@@ -1,7 +1,7 @@
 package com.sokdak.randomchat.domain.valueobjects
 
 sealed class UserChatStatus {
-    data object NotInChat : UserChatStatus()
+    data object Idle : UserChatStatus()
 
     data object Waiting : UserChatStatus()
 

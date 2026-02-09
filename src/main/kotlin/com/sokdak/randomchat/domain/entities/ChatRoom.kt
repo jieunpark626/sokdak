@@ -12,9 +12,5 @@ data class ChatRoom(
     val status: ChatStatus,
     val createdAt: Instant,
 ) {
-    fun containsUser(userId: UserId): Boolean = userA == userId || userB == userId
-
     fun getPartner(userId: UserId): UserId = if (userA == userId) userB else userA
-
-    fun close(): ChatRoom = copy(status = ChatStatus.CLOSED)
 }
