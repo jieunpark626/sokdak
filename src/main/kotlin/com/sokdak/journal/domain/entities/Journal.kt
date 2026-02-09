@@ -1,7 +1,7 @@
 package com.sokdak.journal.domain.entities
 
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.journal.domain.valueobjects.JournalId
-import com.sokdak.user.domain.valueobjects.UserId
 import java.time.Instant
 
 class Journal(

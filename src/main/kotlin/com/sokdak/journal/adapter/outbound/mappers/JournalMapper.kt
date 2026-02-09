@@ -1,9 +1,9 @@
 package com.sokdak.journal.adapter.outbound.mappers
 
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.journal.adapter.outbound.entities.JournalJpaEntity
 import com.sokdak.journal.domain.entities.Journal
 import com.sokdak.journal.domain.valueobjects.JournalId
-import com.sokdak.user.domain.valueobjects.UserId
 import org.springframework.stereotype.Component
 
 @Component

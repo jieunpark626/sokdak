@@ -1,6 +1,6 @@
 package com.sokdak.journal.application.commands
 
-import com.sokdak.user.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import java.time.Instant
 
 data class GetJournalsCommand(

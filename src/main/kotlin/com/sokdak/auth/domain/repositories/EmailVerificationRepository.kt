@@ -1,7 +1,7 @@
 package com.sokdak.auth.domain.repositories
 
 import com.sokdak.auth.domain.entities.EmailVerification
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 
 interface EmailVerificationRepository {
     fun save(verification: EmailVerification): EmailVerification

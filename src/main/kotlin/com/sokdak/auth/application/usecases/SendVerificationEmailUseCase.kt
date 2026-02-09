@@ -8,7 +8,7 @@ import com.sokdak.auth.domain.entities.EmailVerification
 import com.sokdak.auth.domain.repositories.EmailVerificationRepository
 import com.sokdak.auth.domain.repositories.UserRepository
 import com.sokdak.auth.domain.services.EmailService
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant

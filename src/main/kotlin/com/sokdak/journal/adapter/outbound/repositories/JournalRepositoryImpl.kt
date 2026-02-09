@@ -1,10 +1,10 @@
 package com.sokdak.journal.adapter.outbound.repositories
 
+import com.sokdak.common.domain.valueobjects.UserId
 import com.sokdak.journal.adapter.outbound.mappers.JournalMapper
 import com.sokdak.journal.domain.entities.Journal
 import com.sokdak.journal.domain.repositories.JournalRepository
 import com.sokdak.journal.domain.valueobjects.JournalId
-import com.sokdak.user.domain.valueobjects.UserId
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
