@@ -47,6 +47,9 @@ gateway:
     token: test-gateway-token
   base-url: http://localhost:8080
 
+frontend:
+  base-url: http://localhost:3000
+
 email:
   verification:
     token-validity-in-seconds: 3600
