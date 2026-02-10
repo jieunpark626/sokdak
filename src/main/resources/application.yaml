@@ -72,6 +72,9 @@ gateway:
     token: ${GATEWAY_SECURITY_TOKEN}
   base-url: ${GATEWAY_BASE_URL}
 
+frontend:
+  base-url: ${FRONTEND_BASE_URL:https://www.sokdak.site}
+
 cookie:
   secure: ${COOKIE_SECURE:true}  # 로컬 개발 시 COOKIE_SECURE=false 설정
 
