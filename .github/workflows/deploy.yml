@@ -1,9 +1,10 @@
 name: Deploy Sokdak Core API
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [ "Test" ]
+    types: [ completed ]
+    branches: [ main ]
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -14,6 +15,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout

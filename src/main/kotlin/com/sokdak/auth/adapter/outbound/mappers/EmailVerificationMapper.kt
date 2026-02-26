@@ -3,7 +3,7 @@ package com.sokdak.auth.adapter.outbound.mappers
 import com.sokdak.auth.adapter.outbound.entities.EmailVerificationJpaEntity
 import com.sokdak.auth.domain.entities.EmailVerification
 import com.sokdak.auth.domain.valueobjects.Email
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 import org.springframework.stereotype.Component
 
 @Component

@@ -84,32 +84,32 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Sokdak</h1>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Sokdak</h1>
+    </div>
 
-        <div th:if="${success}" class="message success-message">
-            <div class="icon success-icon">✓</div>
-            <h2>이메일 인증 완료!</h2>
-            <p th:text="${message}">Your email has been verified successfully.</p>
-            <p>이제 로그인하여 Sokdak을 이용하실 수 있습니다.</p>
+    <div th:if="${success}" class="message success-message">
+        <div class="icon success-icon">✓</div>
+        <h2>이메일 인증 완료!</h2>
+        <p th:text="${message}">Your email has been verified successfully.</p>
+        <p>이제 로그인하여 Sokdak을 이용하실 수 있습니다.</p>
 
-            <div style="margin-top: 30px;">
-                <a href="/login" class="button">로그인 하기</a>
-            </div>
-        </div>
-
-        <div th:unless="${success}" class="message error-message">
-            <div class="icon error-icon">✕</div>
-            <h2>인증 실패</h2>
-            <p th:text="${message}">Email verification failed.</p>
-            <p>링크가 만료되었거나 잘못된 경우, 인증 이메일을 다시 요청해주세요.</p>
-        </div>
-
-        <div class="footer">
-            <p>&copy; 2026 Sokdak. All rights reserved.</p>
+        <div style="margin-top: 30px;">
+            <a href="https://www.sokdak.site/login" class="button">로그인 하기</a>
         </div>
     </div>
+
+    <div th:unless="${success}" class="message error-message">
+        <div class="icon error-icon">✕</div>
+        <h2>인증 실패</h2>
+        <p th:text="${message}">Email verification failed.</p>
+        <p>링크가 만료되었거나 잘못된 경우, 인증 이메일을 다시 요청해주세요.</p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Sokdak. All rights reserved.</p>
+    </div>
+</div>
 </body>
 </html>

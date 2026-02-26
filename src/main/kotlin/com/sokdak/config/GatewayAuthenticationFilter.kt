@@ -1,5 +1,6 @@
 package com.sokdak.config
 
+import com.sokdak.common.constants.HttpHeaders
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -21,12 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 class GatewayAuthenticationFilter(
     @Value("\${gateway.security.token:}") private val gatewaySecurityToken: String,
 ) : OncePerRequestFilter() {
-    private val log = LoggerFactory.getLogger(GatewayAuthenticationFilter::class.java)
-
-    companion object {
-        private const val USER_ID_HEADER = "X-User-Id"
-        private const val GATEWAY_TOKEN_HEADER = "X-Gateway-Token"
-    }
+    private val log = LoggerFactory.getLogger(javaClass)
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         val path = request.requestURI
@@ -43,7 +39,7 @@ class GatewayAuthenticationFilter(
             val isPublicPath = path.startsWith("/auth/")
 
             // 1. Gateway 토큰 검증 (모든 요청에서 필수)
-            val gatewayToken = request.getHeader(GATEWAY_TOKEN_HEADER)
+            val gatewayToken = request.getHeader(HttpHeaders.GATEWAY_TOKEN)
 
             if (gatewaySecurityToken.isNotBlank() && gatewayToken != gatewaySecurityToken) {
                 log.warn("Invalid or missing gateway token from IP: ${request.remoteAddr}, path: $path")
@@ -52,7 +48,7 @@ class GatewayAuthenticationFilter(
             }
 
             // 2. Gateway에서 전달한 사용자 ID 추출
-            val userId = request.getHeader(USER_ID_HEADER)
+            val userId = request.getHeader(HttpHeaders.USER_ID)
 
             // 3. 공개 경로가 아닌 경우 User ID 필수
             if (!isPublicPath && userId.isNullOrBlank()) {

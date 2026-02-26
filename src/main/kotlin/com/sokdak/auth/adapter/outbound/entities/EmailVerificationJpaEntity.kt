@@ -11,9 +11,9 @@ import java.time.Instant
 @Table(
     name = "email_verification",
     indexes = [
-        Index(name = "idx_user_id", columnList = "user_id"),
-        Index(name = "idx_token", columnList = "token"),
-        Index(name = "idx_expires_at", columnList = "expires_at"),
+        Index(name = "idx_email_verification_user_id", columnList = "user_id"),
+        Index(name = "idx_email_verification_token", columnList = "token"),
+        Index(name = "idx_email_verification_expires_at", columnList = "expires_at"),
     ],
 )
 class EmailVerificationJpaEntity(

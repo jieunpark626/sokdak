@@ -1,8 +1,6 @@
 package com.sokdak.auth.adapter.inbound.api.controllers
 
 import com.sokdak.auth.adapter.inbound.api.dto.requests.LoginRequest
-import com.sokdak.auth.adapter.inbound.api.dto.requests.LogoutRequest
-import com.sokdak.auth.adapter.inbound.api.dto.requests.RefreshTokenRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.RegisterUserRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.ResendVerificationEmailRequest
 import com.sokdak.auth.adapter.inbound.api.dto.requests.VerifyTokenRequest
@@ -13,6 +11,8 @@ import com.sokdak.auth.adapter.inbound.api.dto.responses.VerifyEmailResponse
 import com.sokdak.auth.adapter.inbound.api.dto.responses.VerifyTokenResponse
 import com.sokdak.auth.adapter.inbound.api.mappers.toCommand
 import com.sokdak.auth.adapter.inbound.api.mappers.toResponse
+import com.sokdak.auth.application.commands.LogoutCommand
+import com.sokdak.auth.application.commands.RefreshTokenCommand
 import com.sokdak.auth.application.commands.VerifyEmailCommand
 import com.sokdak.auth.application.usecases.LoginUseCase
 import com.sokdak.auth.application.usecases.LogoutUseCase
@@ -21,11 +21,15 @@ import com.sokdak.auth.application.usecases.RegisterUserUseCase
 import com.sokdak.auth.application.usecases.ResendVerificationEmailUseCase
 import com.sokdak.auth.application.usecases.VerifyEmailUseCase
 import com.sokdak.auth.application.usecases.VerifyTokenUseCase
+import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -45,7 +49,12 @@ class AuthController(
     private val verifyEmailUseCase: VerifyEmailUseCase,
     private val resendVerificationEmailUseCase: ResendVerificationEmailUseCase,
     @Value("\${gateway.base-url}") private val gatewayBaseUrl: String,
+    @Value("\${cookie.secure:true}") private val cookieSecure: Boolean,
 ) {
+    companion object {
+        private const val REFRESH_TOKEN_COOKIE_NAME = "refresh_token"
+    }
+
     @ResponseBody
     @PostMapping("/register")
     fun register(
@@ -64,24 +73,28 @@ class AuthController(
     @PostMapping("/login")
     fun login(
         @Valid @RequestBody request: LoginRequest,
+        response: HttpServletResponse,
     ): ResponseEntity<LoginResponse> {
         val command = request.toCommand()
         val result = loginUseCase.execute(command)
-        val response = result.toResponse()
 
-        return ResponseEntity.ok(response)
+        setRefreshTokenCookie(response, result.tokens.refreshToken, result.tokens.refreshTokenExpiresInSeconds)
+
+        return ResponseEntity.ok(result.toResponse())
     }
 
     @ResponseBody
     @PostMapping("/refresh")
     fun refresh(
-        @Valid @RequestBody request: RefreshTokenRequest,
+        @CookieValue(REFRESH_TOKEN_COOKIE_NAME) refreshToken: String,
+        response: HttpServletResponse,
     ): ResponseEntity<TokenResponse> {
-        val command = request.toCommand()
+        val command = RefreshTokenCommand(refreshToken = refreshToken)
         val tokens = refreshTokenUseCase.execute(command)
-        val response = tokens.toResponse()
 
-        return ResponseEntity.ok(response)
+        setRefreshTokenCookie(response, tokens.refreshToken, tokens.refreshTokenExpiresInSeconds)
+
+        return ResponseEntity.ok(tokens.toResponse())
     }
 
     @ResponseBody
@@ -99,12 +112,46 @@ class AuthController(
     @ResponseBody
     @PostMapping("/logout")
     fun logout(
-        @Valid @RequestBody request: LogoutRequest,
+        @CookieValue(REFRESH_TOKEN_COOKIE_NAME, required = false) refreshToken: String?,
+        response: HttpServletResponse,
     ): ResponseEntity<Void> {
-        val command = request.toCommand()
-        logoutUseCase.execute(command)
+        refreshToken?.let {
+            logoutUseCase.execute(LogoutCommand(refreshToken = it))
+        }
+
+        clearRefreshTokenCookie(response)
 
         return ResponseEntity.noContent().build()
+    }
+
+    private fun setRefreshTokenCookie(
+        response: HttpServletResponse,
+        refreshToken: String,
+        maxAgeSeconds: Long,
+    ) {
+        val cookie =
+            ResponseCookie
+                .from(REFRESH_TOKEN_COOKIE_NAME, refreshToken)
+                .httpOnly(true)
+                .secure(cookieSecure)
+                .sameSite("Strict")
+                .path("/auth")
+                .maxAge(maxAgeSeconds)
+                .build()
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString())
+    }
+
+    private fun clearRefreshTokenCookie(response: HttpServletResponse) {
+        val cookie =
+            ResponseCookie
+                .from(REFRESH_TOKEN_COOKIE_NAME, "")
+                .httpOnly(true)
+                .secure(cookieSecure)
+                .sameSite("Strict")
+                .path("/auth")
+                .maxAge(0)
+                .build()
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString())
     }
 
     @GetMapping("/verify-email")

@@ -1,7 +1,7 @@
 package com.sokdak.auth.domain.repositories
 
 import com.sokdak.auth.domain.entities.RefreshToken
-import com.sokdak.auth.domain.valueobjects.UserId
+import com.sokdak.common.domain.valueobjects.UserId
 
 interface RefreshTokenRepository {
     fun save(refreshToken: RefreshToken): RefreshToken

@@ -1,55 +1,27 @@
 package com.sokdak.journal.adapter.inbound.api.exceptions
 
-import com.sokdak.journal.adapter.inbound.api.dto.responses.ErrorResponse
+import com.sokdak.common.web.exception.BaseExceptionHandler
+import com.sokdak.common.web.exception.ErrorCode
+import com.sokdak.common.web.exception.ErrorResponse
 import com.sokdak.journal.application.exceptions.JournalNotFoundException
-import org.springframework.http.HttpStatus
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+/**
+ * Journal 도메인 전용 예외 처리
+ */
 @RestControllerAdvice(basePackages = ["com.sokdak.journal"])
-class JournalExceptionHandler {
-    // 404 - 일기 없음
+@Order(0)
+class JournalExceptionHandler : BaseExceptionHandler() {
     @ExceptionHandler(JournalNotFoundException::class)
-    fun handleJournalNotFound(e: JournalNotFoundException): ResponseEntity<ErrorResponse> {
-        return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(
-                ErrorResponse(
-                    code = ErrorCode.JOURNAL_NOT_FOUND.name,
-                    message = e.message ?: "Journal not found",
-                ),
-            )
-    }
-
-    // 400 - Validation 에러 (@Valid)
-    @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleValidation(e: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
-        val message =
-            e.bindingResult.fieldErrors
-                .joinToString(", ") { "${it.field}: ${it.defaultMessage}" }
-
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(
-                ErrorResponse(
-                    code = ErrorCode.INVALID_REQUEST.name,
-                    message = message,
-                ),
-            )
-    }
-
-    // 500 - 나머지 전부
-    @ExceptionHandler(Exception::class)
-    fun handleException(e: Exception): ResponseEntity<ErrorResponse> {
-        return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(
-                ErrorResponse(
-                    code = ErrorCode.INTERNAL_SERVER_ERROR.name,
-                    message = e.message ?: "Internal server error",
-                ),
-            )
+    fun handleJournalNotFound(
+        e: JournalNotFoundException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> {
+        logWarn("Journal", ErrorCode.JOURNAL_NOT_FOUND, e.message, request)
+        return buildErrorResponse(ErrorCode.JOURNAL_NOT_FOUND, e.message, request)
     }
 }
